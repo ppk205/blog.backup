@@ -13,7 +13,7 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   site: "https://ppk205.github.io",
-  base: "/ppk205blog",
+  base: "/",
   trailingSlash: "ignore",
   prefetch: {
     prefetchAll: true
