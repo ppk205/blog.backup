@@ -8,20 +8,18 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
-// Remove this line for GitHub Pages
 import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://ppk205.github.io", // Change this
-  base: "/ppk205blog", // Add this - use your actual repo name
+  site: process.env.NODE_ENV === 'production' ? "https://ppk205.github.io" : "http://localhost:4321",
+  base: process.env.NODE_ENV === 'production' ? "/ppk205blog" : "/",
   trailingSlash: "ignore",
-  output: "static", // Add this for GitHub Pages
+  output: process.env.NODE_ENV === 'production' ? "static" : undefined,
   prefetch: {
     prefetchAll: true
   },
-  // Remove this line for GitHub Pages
-  adapter: cloudflare(),
+  adapter: process.env.NODE_ENV === 'production' ? undefined : cloudflare(),
   integrations: [react(), sitemap(), tailwind({
     config: {
       applyBaseStyles: false
