@@ -13,8 +13,8 @@ import remarkMath from "remark-math";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://YOUR_GITHUB_USERNAME.github.io", // Change this
-  base: "/YOUR_REPOSITORY_NAME", // Add this - use your actual repo name
+  site: "https://ppk205.github.io", // Change this
+  base: "/ppk205blog", // Add this - use your actual repo name
   trailingSlash: "ignore",
   output: "static", // Add this for GitHub Pages
   prefetch: {
