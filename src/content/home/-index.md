@@ -1,9 +1,7 @@
 ---
-image: "@assets/astrogon-star.svg"
-imageAlt: Astrogon logo
-title: Astrogon
-content: A rapidly-customizable template for a blog, documentation, and more.
+title: Welcome to Whisper's page
+content: A page to explore some cool project and workloads i developed
 button:
-  label: See the Code
+  label: See the Original Template
   link: https://github.com/astrogon/astrogon
 ---

@@ -33,20 +33,6 @@ const about = defineCollection({
     }),
 });
 
-const authors = defineCollection({
-  loader: glob({
-    pattern: "**\/[^_]*.{md,mdx}",
-    base: "./src/content/authors",
-  }),
-  schema: ({ image }) =>
-    searchable.extend({
-      email: z.string().optional(),
-      image: image().optional(),
-      imageAlt: z.string().default(""),
-      social: social.optional(),
-    }),
-});
-
 const blog = defineCollection({
   loader: glob({ pattern: "**\/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: ({ image }) =>
@@ -54,7 +40,6 @@ const blog = defineCollection({
       date: z.date().optional(),
       image: image().optional(),
       imageAlt: z.string().default(""),
-      author: reference("authors").optional(),
       categories: z.array(z.string()).optional(),
       tags: z.array(z.string()).optional(),
       complexity: z.number().default(1),
@@ -92,27 +77,24 @@ const home = defineCollection({
     }),
 });
 
-const indexCards = defineCollection({
+const homework = defineCollection({
   loader: glob({
     pattern: "-index.{md,mdx}",
-    base: "./src/content/index-cards",
+    base: "./src/content/homework",
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    cards: z.array(z.string()),
+  schema: searchable.extend({
+    projects: z.array(
+      z.object({
+        title: z.string(),
+        github: z.string().optional(),
+        technologies: z.array(z.string()).optional(),
+        status: z.string().optional(),
+        dueDate: z.string().optional(),
+        subject: z.string().optional(),
+        content: z.array(z.string()).optional(),
+      }),
+    ),
   }),
-});
-
-const poetry = defineCollection({
-  loader: glob({ pattern: "**\/[^_]*.{md,mdx}", base: "./src/content/poetry" }),
-  schema: ({ image }) =>
-    searchable.extend({
-      date: z.date().optional(),
-      image: image().optional(),
-      imageAlt: z.string().default(""),
-      author: reference("authors").optional(),
-    }),
 });
 
 const portfolio = defineCollection({
@@ -132,31 +114,6 @@ const portfolio = defineCollection({
   }),
 });
 
-const recipes = defineCollection({
-  loader: glob({
-    pattern: "**\/[^_]*.{md,mdx}",
-    base: "./src/content/recipes",
-  }),
-  schema: ({ image }) =>
-    searchable.extend({
-      date: z.date().optional(),
-      image: image().optional(),
-      imageAlt: z.string().default(""),
-      author: reference("authors").optional(),
-      prepTime: z.number().optional(),
-      servings: z.number().optional(),
-      diet: z.string().optional(),
-      ingredients: z
-        .object({
-          list: z.array(z.string()),
-          qty: z.array(z.string()),
-        })
-        .optional(),
-      instructions: z.array(z.string()).optional(),
-      notes: z.array(z.string()).optional(),
-    }),
-});
-
 const terms = defineCollection({
   loader: glob({ pattern: "-index.{md,mdx}", base: "./src/content/terms" }),
   schema: searchable,
@@ -165,13 +122,10 @@ const terms = defineCollection({
 // Export collections
 export const collections = {
   about,
-  authors,
   blog,
   docs,
   home,
-  indexCards,
-  poetry,
+  homework,
   portfolio,
-  recipes,
   terms,
 };

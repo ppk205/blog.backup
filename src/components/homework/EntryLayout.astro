@@ -1,0 +1,113 @@
+---
+import type { HomeworkEntry } from "@/types";
+import BaseLayout from "@components/base/BaseLayout.astro";
+import PageHeader from "@/components/common/PageHeader.astro";
+import { markdownify } from "@lib/textConverter";
+import { FaGithub, FaCalendarAlt, FaBookOpen } from "react-icons/fa";
+
+interface Props {
+  entry: HomeworkEntry;
+}
+
+const { entry } = Astro.props;
+const { title, description, projects } = entry.data;
+
+// Function to get status color
+const getStatusColor = (status: string) => {
+  switch (status?.toLowerCase()) {
+    case 'completed':
+      return 'text-green-600 bg-green-100 dark:bg-green-900 dark:text-green-300';
+    case 'in progress':
+      return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-300';
+    case 'not started':
+      return 'text-red-600 bg-red-100 dark:bg-red-900 dark:text-red-300';
+    default:
+      return 'text-gray-600 bg-gray-100 dark:bg-gray-900 dark:text-gray-300';
+  }
+};
+
+// Function to get subject color
+const getSubjectColor = (subject: string) => {
+  switch (subject?.toLowerCase()) {
+    case 'mathematics':
+      return 'text-blue-600 bg-blue-100 dark:bg-blue-900 dark:text-blue-300';
+    case 'physics':
+      return 'text-purple-600 bg-purple-100 dark:bg-purple-900 dark:text-purple-300';
+    case 'computer science':
+      return 'text-indigo-600 bg-indigo-100 dark:bg-indigo-900 dark:text-indigo-300';
+    case 'english literature':
+      return 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900 dark:text-emerald-300';
+    default:
+      return 'text-gray-600 bg-gray-100 dark:bg-gray-900 dark:text-gray-300';
+  }
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHeader title={title} />
+  
+  <!-- Homework Projects -->
+  <section class="section-sm container">
+    <div class="row justify-center">
+      <div class="col-10 content glass rounded-lg p-6">
+        {
+          projects.map((project) => (
+            <div class="mb-8 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0 last:pb-0">
+              <div class="mb-4">
+                <div class="flex items-start justify-between mb-2">
+                  <h3 set:html={markdownify(project.title)} class="text-xl font-bold flex-1" />
+                  <div class="flex flex-col items-end gap-2 ml-4">
+                    {project.status && (
+                      <span class={`px-2 py-1 text-xs rounded-full ${getStatusColor(project.status)}`}>
+                        {project.status}
+                      </span>
+                    )}
+                    {project.subject && (
+                      <span class={`px-2 py-1 text-xs rounded-full ${getSubjectColor(project.subject)}`}>
+                        <FaBookOpen className="inline-block w-3 h-3 mr-1" />
+                        {project.subject}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                
+                {project.dueDate && (
+                  <div class="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    <FaCalendarAlt className="w-4 h-4 mr-2" />
+                    Due: {project.dueDate}
+                  </div>
+                )}
+                
+                <div class="flex flex-wrap items-center gap-2">
+                  {project.github && (
+                    <a
+                      aria-label="Github Repository"
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      class="glass-t shadow-none rounded flex h-8 px-3 text-txt-p dark:text-darkmode-txt-p items-center justify-center hover:bg-primary hover:text-white transition-colors duration-200"
+                    >
+                      <FaGithub className="h-4 w-4 mr-2" />
+                      View Code
+                    </a>
+                  )}
+                  {project.technologies?.map((tech: string) => (
+                    <span class="px-2 py-1 text-xs glass-t shadow-none rounded text-txt-p dark:text-darkmode-txt-p">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div class="prose prose-sm dark:prose-invert max-w-none">
+                {project.content?.map((paragraph: string) => (
+                  <p set:html={markdownify(paragraph)} class="mb-3" />
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
