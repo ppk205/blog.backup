@@ -9,7 +9,7 @@ import remarkToc from "remark-toc";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 // Remove this line for GitHub Pages
-// import cloudflare from "@astrojs/cloudflare";
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,7 +21,7 @@ export default defineConfig({
     prefetchAll: true
   },
   // Remove this line for GitHub Pages
-  // adapter: cloudflare(),
+  adapter: cloudflare(),
   integrations: [react(), sitemap(), tailwind({
     config: {
       applyBaseStyles: false
