@@ -13,7 +13,7 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   site: process.env.NODE_ENV === 'production' ? "https://ppk205.github.io" : "http://localhost:4321",
-  base: process.env.NODE_ENV === 'production' ? "/" : "/",
+  base: process.env.NODE_ENV === 'production' ? "/blog.backup" : "/",
   trailingSlash: "ignore",
   output: process.env.NODE_ENV === 'production' ? "static" : undefined,
   prefetch: {
